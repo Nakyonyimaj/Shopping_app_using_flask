@@ -1,0 +1,105 @@
+{%extends "base.html" %}
+
+{% block title %}
+   cart page
+ 
+{% endblock title %}
+
+{%block content%}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Fashion</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{{url_for('home_page')}}">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Categories
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            {%for category in categories%}
+            <a class="dropdown-item" href="{{url_for("get_category" , id=category.id)}}">{{category.name}}</a>
+            {%endfor%}
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{url_for("itemTable_page")}}">Item table</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" tabindex="-1">Cart({{session['cart']|length}})</a>
+        </li>
+      </ul>
+            <span class="navbar-text">
+        <a class="nav-link disabled" href="#">Add to cart</a>
+      </span>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+</nav>
+{% include  "messages.html"%}
+
+
+<div class = "p-5" class="container-fluid">
+    <div class="container">
+        <div class="row hidden-md-up">
+        {% if 'cart' in session %}
+        <p><a id="btnEmpty" href="{{ url_for('empty_cart') }}" class="btn btn-danger">Empty Cart</a></p>
+        <table class="table table-hover">
+
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Name</th>
+                    <th>Stock</th>
+                    <th>Quantity</th>
+                    <th class="text-center">Price</th>
+                    <th class="text-center">f_Price</th>
+            
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for key, product in session['cart'].items() %}
+                {% set total = product.quantity|int * product.price|int%}
+        
+                <tr>
+
+                        <td><img src="{{ product.image }}"width="72px" height="72px"></td>             
+                        <td> <a href="#">{{ product.name }}</a></td>
+                        <td><span>Status: </span><span class="text-success"><strong>In Stock</strong></span></td>
+                        <form action="{{url_for("update_cart" ,id=key)}}" method="post">
+                            <td class="col-sm-1 col-md-1" style="text-align: center"><input type="number" name="quantity" class="form-control" value="{{ product.quantity }}"></td>
+                            <td class="col-sm-1 col-md-1 text-center"><strong>${{ product.price }} </strong></td>
+                            <td class="col-sm-1 col-md-1 text-center"><strong>${{ total }} </strong></td>
+                            <td class="col-sm-1 col-md-1"><button type="submit" class="btn btn-info">Update</td>                     
+                        </form>
+                            <td class="col-sm-1 col-md-1"><a href="{{url_for("delete_product",id=key)}}" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Remove</a></td>    
+
+                </tr>
+                {%endfor%}
+                <tr>
+                    <td colspan="4"><h5>Total Quantity</h5></td>
+                    <td class="text-right"><h5><strong>{{ qua}}</strong></h5></td>
+                </tr>
+                <tr>
+                    <td colspan="3"><h3>Total</h3></td>
+                    <td colspan="2" class="text-right"><h3><strong>${{g_total}}</strong></h3></td>
+                </tr>
+                <tr>
+                    <td><p><a id="btnEmpty" href="{{ url_for('market_page') }}" class="btn btn-warning">Continue Shopping</a></p></td>
+                </tr>
+            </tbody>
+        </table>
+        {% else %} 
+        <div class="no-records">Your Cart is Empty</div>
+        {%endif%}
+    </div>
+</div>
+{%endblock content%}
