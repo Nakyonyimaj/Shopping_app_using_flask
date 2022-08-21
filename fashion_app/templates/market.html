@@ -34,19 +34,15 @@
           <a class="nav-link" href="#" tabindex="-1">Cart({{session['cart']|length}})</a>
         </li>
       </ul>
-            <span class="navbar-text">
-        <a class="nav-link" href="{{url_for("cart_page")}}">Add to cart</a>
-      </span>
+        <span class="navbar-text"><a class="nav-link" href="{{url_for("cart_page")}}">Shopping bag</a></span>
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
     </div>
 </nav>
-{% include  "messages.html"%}
-
-
-<div class = "p-5" class="container-fluid">
+{%include "messages.html"%}
+<div class="p-5"class="container-fluid">
   <div class="container">
     <div class="row hidden-md-up">
       {%if get_cat_prod%}

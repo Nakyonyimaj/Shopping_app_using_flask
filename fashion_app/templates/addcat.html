@@ -29,8 +29,17 @@
     </ul>
   </div>
 </nav>
-
-
+{%include 'messages.html'%}
+<div class="p-5"class="container-fluid">
+  {% from "_formhelpers.html" import render_field %}
+  <h2 class="text-center">Add Category</h2>
+  <form method=POST enctype=multipart/form-data>
+    {{form.hidden_tag()}}
+    <dl>
+      {{ render_field(form.name , class= "form-control" , placeholder= "Category Name") }}
+      {{ render_field(form.submit ,class="btn btn-primary ")}}
+    </dl>
+</div>
 
 {%  endblock content %}
     

@@ -22,7 +22,7 @@ class RegisterForm(FlaskForm):
  
  
 class Categoryform(FlaskForm):
-   name = StringField(label='Category_name', validators=[DataRequired()])
+   name = StringField(label='Category', validators=[DataRequired()])
    submit   = SubmitField(label='Add Category')
    
  
